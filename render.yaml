@@ -7,7 +7,7 @@ services:
     buildCommand: ./build.sh
     startCommand: heroku-php-apache2 public/
     healthCheckPath: /
-    healthCheckTimeout: 5
+    healthCheckTimeout: 20
     autoDeploy: true
     envVars:
       - key: APP_KEY
