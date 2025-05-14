@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alash Academy Diagnostics</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #333; }
+        .card { border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Alash Academy Deployment Diagnostics</h1>
+    
+    <div class="card">
+        <h2>Static HTML Test</h2>
+        <p class="success">✅ If you can see this page, the static file serving is working correctly.</p>
+        <p>This means the web server (Apache) is running and serving files from the public directory.</p>
+    </div>
+    
+    <div class="card">
+        <h2>Next Steps for Troubleshooting</h2>
+        <ul>
+            <li>Check if <a href="test.php">test.php</a> is accessible (tests PHP and database connection)</li>
+            <li>Check if <a href="hello.html">hello.html</a> is accessible (another static file test)</li>
+            <li>Check the logs in Render.com dashboard for any PHP or Laravel errors</li>
+            <li>Try running "php artisan serve" locally to see if Laravel works on your development machine</li>
+            <li>Look for any discrepancies between your local .env and the .env.render file</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Common Issues</h2>
+        <ul>
+            <li>Missing APP_KEY environment variable</li>
+            <li>Database connection problems (wrong credentials or configuration)</li>
+            <li>Missing PHP extensions required by Laravel</li>
+            <li>Directory permissions issues</li>
+            <li>Apache configuration not correctly set up for Laravel</li>
+        </ul>
+    </div>
+</body>
+</html>

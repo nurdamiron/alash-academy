@@ -3,10 +3,10 @@ services:
     name: alash-academy
     env: php
     plan: starter
-    runtime: php
+    runtime: php@8.1
     buildCommand: ./build.sh
     startCommand: heroku-php-apache2 public/
-    healthCheckPath: /
+    healthCheckPath: /hello.html
     healthCheckTimeout: 20
     autoDeploy: true
     envVars:
