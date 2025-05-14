@@ -7,16 +7,17 @@ set -e
 cp .env.render .env
 
 # Install PHP dependencies
-composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Generate application key if not set
-if [ -z "$APP_KEY" ]; then
-    php artisan key:generate
-fi
+php artisan key:generate --force
 
 # Clear and cache configuration
 php artisan config:clear
 php artisan config:cache
+php artisan route:clear
+php artisan route:cache
+php artisan view:clear
 
 # Run database migrations
 php artisan migrate --force
@@ -28,4 +29,4 @@ php artisan storage:link
 php artisan optimize
 
 # Set permissions
-chmod -R 777 storage bootstrap/cache
+chmod -R 777 storage bootstrap/cache public
