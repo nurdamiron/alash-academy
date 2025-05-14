@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP Info via AJAX</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #333; }
+        #result { border: 1px solid #ddd; padding: 15px; margin-top: 20px; border-radius: 4px; }
+        .button { 
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PHP Diagnostics</h1>
+    <p>This page attempts to load PHP info via an AJAX request. If you see information below, PHP is working.</p>
+    
+    <div>
+        <button class="button" onclick="testPHPFile('render-test.php')">Test render-test.php</button>
+        <button class="button" onclick="testPHPFile('serve.php')">Test serve.php</button>
+        <button class="button" onclick="testPHPFile('test.php')">Test test.php</button>
+        <button class="button" onclick="testPHPFile('env-check.php')">Test env-check.php</button>
+    </div>
+    
+    <div id="result">Click a button to test PHP files...</div>
+    
+    <script>
+        function testPHPFile(file) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Loading...';
+            
+            fetch(file)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    resultDiv.innerHTML = `<h3>Response from ${file}:</h3><pre>${escapeHTML(data)}</pre>`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<h3>Error testing ${file}:</h3><pre style="color:red">${error.message}</pre>`;
+                });
+        }
+        
+        function escapeHTML(str) {
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

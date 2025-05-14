@@ -1,17 +1,9 @@
-# Enable PHP on Render.com
-AddHandler application/x-httpd-php .php
-
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
-
-    # Make sure PHP files are handled by PHP handler
-    <FilesMatch "\.php$">
-        SetHandler application/x-httpd-php
-    </FilesMatch>
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -22,16 +14,8 @@ AddHandler application/x-httpd-php .php
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Allow direct access to PHP test files
-    RewriteCond %{REQUEST_URI} ^/(serve|test|env-check)\.php$ [NC]
-    RewriteRule ^ - [L]
-
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
-
-# PHP Settings
-php_flag display_errors on
-php_value error_reporting E_ALL
