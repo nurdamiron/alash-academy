@@ -10,12 +10,14 @@
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
-// Check if the application is in a subdirectory on Render.com
-// and adjust the application paths accordingly
-if (isset($_SERVER['RENDER']) && isset($_SERVER['RENDER_EXTERNAL_URL'])) {
-    $_SERVER['REQUEST_URI'] = str_replace('/public', '', $_SERVER['REQUEST_URI']);
+// Check if PHP is working
+if (isset($_GET['phpcheck'])) {
+    echo "PHP is working!";
+    phpinfo();
+    exit;
 }
 
+// Define the Laravel start time
 define('LARAVEL_START', microtime(true));
 
 /*

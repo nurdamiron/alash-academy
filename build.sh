@@ -44,8 +44,18 @@ php artisan route:clear || true
 php artisan view:clear || true
 
 # Create storage link
-echo "Creating storage link..."
+echo "Creating symbolic links..."
+mkdir -p public/storage || true
 php artisan storage:link || true
+
+# Test database connection and migrate only if connection is successful
+echo "Testing database connection..."
+if php -r "try { new PDO(getenv('DB_CONNECTION').':host='.getenv('DB_HOST').';port='.getenv('DB_PORT').';dbname='.getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD')); echo 'Database connection successful!\n'; exit(0); } catch(PDOException \$e) { echo 'Database connection failed: '.\$e->getMessage().'\n'; exit(1); }"; then
+    echo "Running database migrations..."
+    php artisan migrate --force || true
+else
+    echo "Skipping migrations due to database connection failure"
+fi
 
 # Verify PHP extensions
 echo "Checking PHP extensions..."
@@ -55,8 +65,17 @@ php -m
 echo "Setting permissions..."
 chmod -R 777 storage bootstrap/cache public
 
-# Create a test PHP file
-echo "Creating test file..."
+# Create test PHP files
+echo "Creating test files..."
 echo '<?php echo "PHP is working on Render.com!"; ?>' > public/render-test.php
+echo '<?php echo json_encode(["status" => "ok", "message" => "API is working"]); ?>' > public/api-test.php
+
+# Create a front controller backup for debugging
+echo "Creating a backup of index.php..."
+cp public/index.php public/index.original.php
+
+# Create health check file
+echo "Creating health check file..."
+echo '<?php echo "Health check OK"; ?>' > public/health.php
 
 echo "===== Build completed successfully! ====="
