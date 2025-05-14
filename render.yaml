@@ -5,9 +5,9 @@ services:
     plan: starter
     runtime: php@8.1
     buildCommand: ./build.sh
-    startCommand: heroku-php-apache2 public/
+    startCommand: heroku-php-apache2 -i public/.user.ini public/
     healthCheckPath: /hello.html
-    healthCheckTimeout: 20
+    healthCheckTimeout: 30
     autoDeploy: true
     envVars:
       - key: APP_KEY
